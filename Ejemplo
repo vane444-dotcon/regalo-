@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarjeta con HTML y CSS</title>
+  
+  <style>
+    /* 1. RESET Y ESTILOS GENERALES */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0f172a; /* Fondo oscuro */
+      color: #f8fafc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* 2. CONTENEDOR PRINCIPAL (TARJETA) */
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 350px;
+      width: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Efecto al pasar el mouse sobre la tarjeta */
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 30px -5px rgba(99, 102, 241, 0.2);
+    }
+
+    /* 3. ELEMENTOS DE LA TARJETA */
+    .badge {
+      display: inline-block;
+      background-color: #6366f1;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .description {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* 4. BOTÓN CON EFECTOS */
+    .btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ESTRUCTURA HTML DE LA TARJETA -->
+  <div class="card">
+    <span class="badge">Nuevo</span>
+    <h2 class="title">Curso de CSS Pro</h2>
+    <p class="description">Aprende a diseñar interfaces increíbles utilizando Flexbox, CSS Grid y animaciones de forma práctica.</p>
+    <button class="btn">Empezar Ahora</button>
+  </div>
+
+</body>
+</html>
