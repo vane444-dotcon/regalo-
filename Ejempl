@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div {
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(45deg, blue, purple);
+  border-radius: 20px;
+  border: 4px solid black;
+  box-shadow: 0 8px 15px gray;
+  transition: all 1s;
+}
+
+div:hover {
+  width: 350px;
+  height: 350px;
+  background: linear-gradient(45deg, red, orange, yellow);
+  transform: rotate(10deg);
+}
+</style>
+</head>
+
+<body>
+
+<h1>Transición con CSS</h1>
+
+<p>Pasa el cursor sobre el cuadro.</p>
+
+<div></div>
+
+</body>
+</html>
