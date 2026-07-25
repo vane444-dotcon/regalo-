@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { margin: 0; background: #000; overflow: hidden; }
+        canvas { display: block; cursor: crosshair; }
+        #ui {
+            position: absolute; bottom: 40px; width: 100%;
+            text-align: center; color: rgba(0, 255, 200, 0.5);
+            font-family: 'Courier New', monospace; font-size: 12px;
+            letter-spacing: 2px; pointer-events: none;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div id="ui">Mueve el cursor para dar vida al sistema</div>
+    <canvas id="c"></canvas>
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let w, h, stars = [], time = 0;
+
+        function init() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
+            stars = [];
+            for(let i = 0; i < 200; i++) {
+                stars.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    s: Math.random() * 2,
+                    p: Math.random() * 0.5
+                });
+            }
+        }
+
+        const mouse = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        window.addEventListener('mousemove', e => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function drawPerson(x, y, s, color) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, 0); ctx.lineTo(0, -10 * s);
+            ctx.moveTo(0, -7 * s); ctx.lineTo(-5 * s, -2 * s);
+            ctx.moveTo(0, -7 * s); ctx.lineTo(5 * s, -2 * s);
+            ctx.moveTo(0, 0); ctx.lineTo(-3 * s, 8 * s);
+            ctx.moveTo(0, 0); ctx.lineTo(3 * s, 8 * s);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, -13 * s, 2.5 * s, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function drawTree(x, y, len, angle, width, hue) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle * Math.PI / 180);
+            ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+            ctx.lineWidth = width;
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -len);
+            ctx.stroke();
+
+            if (len < 10) {
+                if(Math.random() > 0.92) drawPerson(0, -len, 0.3, `hsl(${hue}, 100%, 80%)`);
+                ctx.restore();
+                return;
+            }
+
+            let wind = Math.sin(time * 0.02) * 2;
+            let bend = (mouse.x / w - 0.5) * 60 + wind;
+
+            drawTree(0, -len, len * 0.78, angle + bend + 15, width * 0.7, hue + 5);
+            drawTree(0, -len, len * 0.78, angle - bend - 15, width * 0.7, hue + 5);
+            ctx.restore();
+        }
+
+        function animate() {
+            time++;
+            ctx.fillStyle = 'rgba(0, 0, 5, 0.15)';
+            ctx.fillRect(0, 0, w, h);
+
+            stars.forEach(s => {
+                s.x += (mouse.x - w/2) * s.p * 0.02;
+                if(s.x < 0) s.x = w; if(s.x > w) s.x = 0;
+                ctx.fillStyle = `white`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.s, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            let grd = ctx.createLinearGradient(0, h-20, 0, h);
+            grd.addColorStop(0, "#00ffcc");
+            grd.addColorStop(1, "black");
+            ctx.strokeStyle = grd;
+            ctx.strokeRect(0, h-20, w, 2);
+
+            for(let i = 0; i < 15; i++) {
+                let px = (w / 15) * i + Math.sin(time * 0.01 + i) * 10;
+                drawPerson(px, h - 20, 0.8, '#00ffcc');
+            }
+
+            drawTree(w / 2, h - 20, h / 4.5, 0, 15, 170 + Math.sin(time * 0.01) * 20);
+
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+    </script>
+</body>
+</html>
